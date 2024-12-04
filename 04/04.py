@@ -29,4 +29,47 @@ def part1(puzzle):
                     ans += 1
     return ans
 
+def check_cross(rs, cs, re, ce, puzzle):
+    # Case 1:
+    # M M
+    #  A
+    # S S   
+    if puzzle[rs][cs] == "M" and puzzle[rs][ce] == "M" and puzzle[rs+1][cs+1] == "A" and puzzle[re][cs] == "S" and puzzle[re][ce] == "S":
+        return True
+    # Case 2:
+    # M S
+    #  A
+    # M S
+    if puzzle[rs][cs] == "M" and puzzle[rs][ce] == "S" and puzzle[rs+1][cs+1] == "A" and puzzle[re][cs] == "M" and puzzle[re][ce] == "S":
+        return True
+    # Case 3:
+    # S M
+    #  A
+    # S M
+    if puzzle[rs][cs] == "S" and puzzle[rs][ce] == "M" and puzzle[rs+1][cs+1] == "A" and puzzle[re][cs] == "S" and puzzle[re][ce] == "M":
+        return True
+    # Case 4:
+    # S S
+    #  A
+    # M M
+    if puzzle[rs][cs] == "S" and puzzle[rs][ce] == "S" and puzzle[rs+1][cs+1] == "A" and puzzle[re][cs] == "M" and puzzle[re][ce] == "M":
+        return True
+    return False
+
+def search_cross(row, col, puzzle):
+    row_end = row + 2
+    col_end = col + 2
+    if row_end >= len(puzzle) or col_end >= len(puzzle[0]):
+        return False
+    return check_cross(row, col, row_end, col_end, puzzle)
+    
+def part2(puzzle):
+    ans = 0
+    for r in range(len(puzzle)):
+        for c in range(len(puzzle[0])):
+            if search_cross(r, c, puzzle):
+                ans += 1
+    return ans
+
 print("Part 1:", part1(puzzle))
+print("Part 2:", part2(puzzle))
